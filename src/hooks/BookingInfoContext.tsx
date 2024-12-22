@@ -121,7 +121,7 @@ export default function BookingInfoProvider({
     if (!category)
       throw new Error("Category must be set before setting a service");
 
-    dispatch({ type: "SET_SERVICE", payload: { service: service, step: 2 } });
+    dispatch({ type: "SET_SERVICE", payload: { service, step: 2 } });
   }
   function setExtraService(extraServices: ExtraServiceType[]) {
     dispatch({ type: "SET_EXTRASERVICE", payload: extraServices });

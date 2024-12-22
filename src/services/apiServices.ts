@@ -20,7 +20,16 @@ export async function getCategories() {
   return data;
 }
 
-export async function getServices(categoryID: number) {
+type GetService = {
+  id: number;
+  title: string;
+  description: string;
+  duration: number;
+  price: number;
+  categoryID: number;
+  isActive: boolean;
+};
+export async function getServices(categoryID: number): Promise<GetService[]> {
   const { data, error } = await supabase
     .from("services")
     .select("*")

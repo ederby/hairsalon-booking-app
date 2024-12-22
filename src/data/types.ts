@@ -15,6 +15,7 @@ export type ServiceType = {
   duration: number;
   price: number;
   categoryID: number;
+  isActive: boolean;
 } & TitleIDType;
 
 export type ExtraServicesType = {
