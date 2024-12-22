@@ -24,10 +24,12 @@ export default function Category(): JSX.Element {
     queryFn: () => getServices(category!.id),
   });
 
+  const filteredServices = services?.filter((service) => service.isActive);
+
   if (isPending) return <Spinner />;
   if (error) return <div>Nu blev det fel.</div>;
 
-  if (!services) {
+  if (!filteredServices) {
     return (
       <div className="px-5">
         Det finns inga tjänster under denna kategorien just nu,{" "}
@@ -49,7 +51,7 @@ export default function Category(): JSX.Element {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {services.map((service) => (
+        {filteredServices.map((service) => (
           <ServiceItem service={service} key={service.id} />
         ))}
       </TableBody>
