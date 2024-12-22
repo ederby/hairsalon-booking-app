@@ -1,8 +1,16 @@
-import { ExtraServiceType, GuestInfo, StaffType } from "@/data/types";
+import {
+  CategoryType,
+  ExtraServiceType,
+  GuestInfo,
+  StaffType,
+} from "@/data/types";
 import { supabase } from "./supabase";
 
 export async function getCategories() {
-  const { data, error } = await supabase.from("categories").select("*");
+  const { data, error } = await supabase
+    .from("categories")
+    .select("*")
+    .order("id", { ascending: true });
 
   if (error) {
     console.error("Categories could not be loaded.");
@@ -16,7 +24,8 @@ export async function getServices(categoryID: number) {
   const { data, error } = await supabase
     .from("services")
     .select("*")
-    .eq("categoryID", categoryID);
+    .eq("categoryID", categoryID)
+    .order("id", { ascending: true });
 
   if (error) {
     console.error("Services could not be loaded.");
@@ -79,8 +88,15 @@ export async function getStaffForCategory(
 }
 
 type ApiBookingType = {
-  category_id: number | undefined;
-  service_id: number | undefined;
+  category: CategoryType | null;
+  service: {
+    id: number;
+    title: string;
+    description: string | undefined;
+    duration: number;
+    price: number;
+    categoryID: number | undefined;
+  } | null;
   extraServices: ExtraServiceType[];
   staff_id: number | undefined;
   selectedDate: string | Date;
@@ -95,7 +111,6 @@ export async function makeGuestReservation(booking: ApiBookingType) {
     .select();
 
   if (error) {
-    console.log(error);
     console.error("Bokningen kunde inte genomföras");
     throw new Error("Bokningen kunde inte genomföras");
   }

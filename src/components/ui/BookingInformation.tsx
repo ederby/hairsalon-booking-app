@@ -25,8 +25,8 @@ export default function BookingInformation(): JSX.Element {
 
   function makeReservation() {
     const booking = {
-      category_id: category?.id,
-      service_id: service?.id,
+      category,
+      service,
       extraServices: extraService,
       staff_id: person?.id,
       selectedDate,

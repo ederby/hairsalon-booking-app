@@ -36,7 +36,6 @@ export default function ReservationForm() {
   const { isValid, isLoading } = form.formState;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     setGuestInfo(values);
   }
 

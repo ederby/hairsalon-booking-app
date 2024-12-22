@@ -3,7 +3,6 @@ export type CategoryType = {
   image: string;
   description: string;
   id: number;
-  personal: number[];
 };
 
 export type ServicesType = {
@@ -12,9 +11,10 @@ export type ServicesType = {
 };
 
 export type ServiceType = {
-  description?: string;
-  duration?: number;
-  price?: number;
+  description: string;
+  duration: number;
+  price: number;
+  categoryID: number;
 } & TitleIDType;
 
 export type ExtraServicesType = {
