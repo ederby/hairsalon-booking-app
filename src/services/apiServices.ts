@@ -34,7 +34,7 @@ export async function getServices(categoryID: number): Promise<GetService[]> {
     .from("services")
     .select("*")
     .eq("categoryID", categoryID)
-    .order("id", { ascending: true });
+    .order("order", { ascending: true });
 
   if (error) {
     console.error("Services could not be loaded.");
