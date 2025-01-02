@@ -10,7 +10,7 @@ export async function getCategories() {
   const { data, error } = await supabase
     .from("categories")
     .select("*")
-    .order("id", { ascending: true });
+    .order("order", { ascending: true });
 
   if (error) {
     console.error("Categories could not be loaded.");
