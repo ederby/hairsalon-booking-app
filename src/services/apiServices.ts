@@ -7,17 +7,31 @@ import {
 import { supabase } from "./supabase";
 
 export async function getCategories() {
-  const { data, error } = await supabase
+  const { data: categoriesData, error: categoriesError } = await supabase
     .from("categories")
     .select("*")
     .order("order", { ascending: true });
 
-  if (error) {
+  if (categoriesError) {
     console.error("Categories could not be loaded.");
     throw new Error("Categories could not be loaded.");
   }
 
-  return data;
+  const { data: servicesData, error: servicesError } = await supabase
+    .from("services")
+    .select("*");
+
+  if (servicesError) {
+    console.error("Categories could not be loaded.");
+    throw new Error("Categories could not be loaded.");
+  }
+
+  const serviceCategoryID = servicesData.map((service) => service.categoryID);
+  const filteredCategories = categoriesData.filter((category) =>
+    serviceCategoryID.includes(category.id)
+  );
+
+  return filteredCategories;
 }
 
 type GetService = {
