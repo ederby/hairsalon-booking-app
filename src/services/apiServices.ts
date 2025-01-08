@@ -5,7 +5,6 @@ import {
   StaffType,
 } from "@/data/types";
 import { supabase } from "./supabase";
-import { is } from "date-fns/locale";
 
 export async function getCategories() {
   const { data: categoriesData, error: categoriesError } = await supabase
