@@ -15,7 +15,6 @@ export default function ListItem({
   id = 0,
   description = "",
 }: ListItemProps): JSX.Element {
-  console.log(image);
   const placeholderImageLetter = title.split("").at(0)?.toUpperCase();
 
   return (

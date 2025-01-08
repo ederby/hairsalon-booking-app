@@ -28,6 +28,7 @@ export type ExtraServiceType = {
   price: number;
   title: string;
   id: number;
+  categoryIDs: number[];
 };
 
 export type TitleIDType = {

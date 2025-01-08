@@ -59,17 +59,18 @@ export async function getServices(categoryID: number): Promise<GetService[]> {
 }
 
 export async function getExtraServices(categoryID: number) {
-  const { data, error } = await supabase
-    .from("extraservices")
-    .select("*")
-    .eq("categoryID", categoryID);
+  const { data, error } = await supabase.from("extraservices").select("*");
 
   if (error) {
     console.error("Extra services could not be loaded.");
     throw new Error("Extra services could not be loaded.");
   }
 
-  return data;
+  const filteredData = data?.filter((row) =>
+    row.categoryIDs.includes(categoryID)
+  );
+
+  return filteredData;
 }
 
 type Schedule = {
