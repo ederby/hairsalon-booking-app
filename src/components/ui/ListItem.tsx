@@ -15,6 +15,9 @@ export default function ListItem({
   id = 0,
   description = "",
 }: ListItemProps): JSX.Element {
+  console.log(image);
+  const placeholderImageLetter = title.split("").at(0)?.toUpperCase();
+
   return (
     <li
       onClick={handleClick}
@@ -22,8 +25,14 @@ export default function ListItem({
     >
       <div className="rounded-xl overflow-hidden min-w-[80px]">
         {id === -1 ? (
-          <div className="object-cover transition-all hover:scale-105 aspect-square max-w-20 bg-zinc-100 flex justify-center items-center">
+          <div className="object-cover transition-all hover:scale-105 aspect-square max-w-20 bg-zinc-200 flex justify-center items-center">
             <CircleUserRound size={35} strokeWidth={1} color="#a1a1aa" />
+          </div>
+        ) : id !== -1 && !image ? (
+          <div className="object-cover transition-all hover:scale-105 aspect-square max-w-20 bg-zinc-200 flex justify-center items-center">
+            <span className="text-4xl text-zinc-50 no-underline">
+              {placeholderImageLetter}
+            </span>
           </div>
         ) : (
           <img
