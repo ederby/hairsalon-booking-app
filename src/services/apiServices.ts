@@ -5,6 +5,7 @@ import {
   StaffType,
 } from "@/data/types";
 import { supabase } from "./supabase";
+import { is } from "date-fns/locale";
 
 export async function getCategories() {
   const { data: categoriesData, error: categoriesError } = await supabase
@@ -59,7 +60,10 @@ export async function getServices(categoryID: number): Promise<GetService[]> {
 }
 
 export async function getExtraServices(categoryID: number) {
-  const { data, error } = await supabase.from("extraservices").select("*");
+  const { data, error } = await supabase
+    .from("extraservices")
+    .select("*")
+    .neq("isActive", false);
 
   if (error) {
     console.error("Extra services could not be loaded.");
