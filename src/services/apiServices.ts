@@ -4,6 +4,7 @@ import {
   GuestInfo,
   StaffType,
 } from "@/data/types";
+import { format } from "date-fns";
 import { supabase } from "./supabase";
 
 export async function getCategories() {
@@ -132,9 +133,15 @@ type ApiBookingType = {
 };
 
 export async function makeGuestReservation(booking: ApiBookingType) {
+  console.log(booking);
   const { data, error } = await supabase
     .from("bookings")
-    .insert([{ ...booking }])
+    .insert([
+      {
+        ...booking,
+        selectedDate: format(booking.selectedDate, "yyyy-MM-dd"),
+      },
+    ])
     .select();
 
   if (error) {
