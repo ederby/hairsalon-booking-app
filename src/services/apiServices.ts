@@ -128,12 +128,13 @@ type ApiBookingType = {
   extraServices: ExtraServiceType[];
   staff_id: number | undefined;
   selectedDate: string | Date;
-  selectedTime: string;
+  startTime: string;
+  endTime: string;
+  duration: number;
   guestInfo: GuestInfo;
 };
 
 export async function makeGuestReservation(booking: ApiBookingType) {
-  console.log(booking);
   const { data, error } = await supabase
     .from("bookings")
     .insert([
