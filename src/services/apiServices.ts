@@ -141,6 +141,8 @@ export async function makeGuestReservation(booking: ApiBookingType) {
       {
         ...booking,
         selectedDate: format(booking.selectedDate, "yyyy-MM-dd"),
+        canceled: false,
+        break: false,
       },
     ])
     .select();
