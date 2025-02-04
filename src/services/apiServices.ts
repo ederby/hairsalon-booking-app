@@ -7,6 +7,43 @@ import {
 import { format } from "date-fns";
 import { supabase } from "./supabase";
 
+type GetService = {
+  id: number;
+  title: string;
+  description: string;
+  duration: number;
+  price: number;
+  categoryID: number;
+  isActive: boolean;
+};
+
+type ApiStaffType = {
+  id: number;
+  name: string;
+  role: string;
+  image: string;
+  schedule: Schedule;
+};
+
+type ApiBookingType = {
+  category: CategoryType | null;
+  service: {
+    id: number;
+    title: string;
+    description: string | undefined;
+    duration: number;
+    price: number;
+    categoryID: number | undefined;
+  } | null;
+  extraServices: ExtraServiceType[];
+  staff_id: number | undefined;
+  selectedDate: string | Date;
+  startTime: string;
+  endTime: string;
+  duration: number;
+  guestInfo: GuestInfo;
+};
+
 export async function getCategories() {
   const { data: categoriesData, error: categoriesError } = await supabase
     .from("categories")
@@ -35,15 +72,6 @@ export async function getCategories() {
   return filteredCategories;
 }
 
-type GetService = {
-  id: number;
-  title: string;
-  description: string;
-  duration: number;
-  price: number;
-  categoryID: number;
-  isActive: boolean;
-};
 export async function getServices(categoryID: number): Promise<GetService[]> {
   const { data, error } = await supabase
     .from("services")
@@ -80,13 +108,6 @@ export async function getExtraServices(categoryID: number) {
 type Schedule = {
   [date: string]: string[];
 };
-type ApiStaffType = {
-  id: number;
-  name: string;
-  role: string;
-  image: string;
-  schedule: Schedule;
-};
 
 export async function getStaffForCategory(
   categoryID: number
@@ -115,25 +136,6 @@ export async function getStaffForCategory(
   }));
 }
 
-type ApiBookingType = {
-  category: CategoryType | null;
-  service: {
-    id: number;
-    title: string;
-    description: string | undefined;
-    duration: number;
-    price: number;
-    categoryID: number | undefined;
-  } | null;
-  extraServices: ExtraServiceType[];
-  staff_id: number | undefined;
-  selectedDate: string | Date;
-  startTime: string;
-  endTime: string;
-  duration: number;
-  guestInfo: GuestInfo;
-};
-
 export async function makeGuestReservation(booking: ApiBookingType) {
   const { data, error } = await supabase
     .from("bookings")
@@ -150,6 +152,28 @@ export async function makeGuestReservation(booking: ApiBookingType) {
   if (error) {
     console.error("Bokningen kunde inte genomföras");
     throw new Error("Bokningen kunde inte genomföras");
+  }
+
+  return data;
+}
+
+export async function getBookings() {
+  const { data, error } = await supabase.from("bookings").select("*");
+
+  if (error) {
+    console.error("Bokningar kunde inte hämtas");
+    throw new Error("Bokningar kunde inte hämtas");
+  }
+
+  return data;
+}
+
+export async function getWorkdays() {
+  const { data, error } = await supabase.from("workdays").select("*");
+
+  if (error) {
+    console.error("Arbetsdagar kunde inte hämtas.");
+    throw new Error("Arbetsdagar kunde inte hämtas.");
   }
 
   return data;

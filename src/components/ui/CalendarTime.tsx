@@ -5,11 +5,12 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import useFormatDate from "@/hooks/useFormatDate";
+import { startOfDay } from "date-fns";
 
 type CalendarTimeProps = {
   selectedDate: Date | undefined;
   setSelectedDate: (date: Date | undefined) => void;
-  schedule: Record<string, string[]>;
+  schedule: string[];
 };
 
 export default function CalendarTime({
@@ -17,7 +18,7 @@ export default function CalendarTime({
   setSelectedDate,
   schedule,
 }: CalendarTimeProps): JSX.Element {
-  const availableDates = Object.keys(schedule).map((date) => new Date(date));
+  const availableDates = schedule?.map((date) => new Date(date));
   const formatedDate = useFormatDate(selectedDate);
 
   return (
@@ -51,7 +52,7 @@ export default function CalendarTime({
               ),
           }}
           disabled={(date) =>
-            date < new Date() ||
+            startOfDay(date) < startOfDay(new Date()) ||
             !availableDates.some(
               (availableDate) =>
                 availableDate.toDateString() === date.toDateString()

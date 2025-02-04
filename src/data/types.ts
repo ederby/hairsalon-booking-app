@@ -54,3 +54,27 @@ export type GuestInfo = {
   email: string;
   observations: string | undefined;
 } | null;
+
+export type BookingType = {
+  id: number;
+  created_at: string;
+  category: CategoryType;
+  service: ServiceType;
+  extraServices: ExtraServiceType[] | [];
+  staff_id: number;
+  selectedDate: string;
+  startTime: string;
+  endTime: string;
+  duration: number;
+  guestInfo: GuestInfo;
+  canceled: boolean;
+  break: boolean;
+};
+
+export type WorkdaysType = {
+  id: number;
+  staffID: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+};

@@ -7,6 +7,9 @@ import CalendarTime from "./CalendarTime";
 import { Button } from "./button";
 import { format } from "date-fns";
 import { CircleUserRound } from "lucide-react";
+import { useBookings } from "@/hooks/useBookings";
+import Spinner from "./Spinner";
+import { useWorkdays } from "@/hooks/useWorkdays";
 
 export default function Schedule(): JSX.Element {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
@@ -14,6 +17,8 @@ export default function Schedule(): JSX.Element {
   );
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const { person, setBooking, category } = useBookingInfo();
+  const { isLoadingBookings } = useBookings();
+  const { workdays, isLoadingWorkdays } = useWorkdays();
 
   const queryClient = useQueryClient();
   const staffList = queryClient.getQueryData<StaffType[]>([
@@ -21,47 +26,80 @@ export default function Schedule(): JSX.Element {
     category!.id,
   ]);
 
+  const availableStaff = staffList?.filter((staff) =>
+    workdays?.some(
+      (workday) =>
+        workday.staffID === staff.id &&
+        workday.date === format(new Date(selectedDate ?? ""), "yyyy-MM-dd")
+    )
+  );
+
+  const availableWorkdays = workdays?.filter((workday) =>
+    staffList?.some((staff) => staff.id === workday.staffID)
+  );
+
+  console.log(availableWorkdays);
+
+  const activeSchedule =
+    person?.id === -1
+      ? Array.from(new Set(availableWorkdays?.map((workday) => workday.date)))
+      : availableWorkdays
+          ?.filter((workday) => workday.staffID === person?.id)
+          .map((workday) => workday.date);
+
+  const currentWorkingday =
+    person?.id === -1
+      ? {
+          id: -1,
+          staffID: -1,
+          date: format(new Date(selectedDate ?? ""), "yyyy-MM-dd"),
+          startTime:
+            availableWorkdays
+              ?.filter(
+                (workday) =>
+                  workday.date ===
+                  format(new Date(selectedDate ?? ""), "yyyy-MM-dd")
+              )
+              .reduce(
+                (earliest, workday) =>
+                  earliest < workday.startTime ? earliest : workday.startTime,
+                "23:59"
+              ) ?? "00:00",
+          endTime:
+            availableWorkdays
+              ?.filter(
+                (workday) =>
+                  workday.date ===
+                  format(new Date(selectedDate ?? ""), "yyyy-MM-dd")
+              )
+              .reduce(
+                (latest, workday) =>
+                  latest > workday.endTime ? latest : workday.endTime,
+                "00:00"
+              ) ?? "23:59",
+        }
+      : availableWorkdays?.find(
+          (workday) =>
+            workday.date ===
+              format(new Date(selectedDate ?? ""), "yyyy-MM-dd") &&
+            workday.staffID === person?.id
+        );
+
+  console.log(currentWorkingday);
+
   if (!person) {
     return <div>Personen hittades inte.</div>;
   }
-
-  function mergeStaffSchedules(
-    staffList: StaffType[]
-  ): Record<string, string[]> {
-    const combinedSchedule: Record<string, Set<string>> = {};
-
-    staffList.forEach((staff) => {
-      Object.entries(staff.schedule).forEach(([date, times]) => {
-        if (!combinedSchedule[date]) {
-          combinedSchedule[date] = new Set();
-        }
-        times.forEach((time) => combinedSchedule[date].add(time));
-      });
-    });
-
-    return Object.fromEntries(
-      Object.entries(combinedSchedule).map(([date, times]) => [
-        date,
-        Array.from(times).sort(), // Sort times for consistency
-      ])
-    );
-  }
-
-  const anyStaffSchedule = mergeStaffSchedules(staffList || []);
-  const activeSchedule =
-    person?.id === -1 ? anyStaffSchedule : person?.schedule;
 
   function handleClick() {
     if (selectedDate && selectedTime) {
       let randomStaff: StaffType | null | undefined = null;
 
       if (person?.id === -1) {
-        const formattedDate = format(selectedDate, "yyyy-MM-dd");
-        const staffMembers = staffList?.filter((staff) =>
-          Object.keys(staff.schedule).find((date) => date === formattedDate)
-        );
-        const random = Math.floor(Math.random() * staffMembers!.length);
-        randomStaff = staffMembers?.at(random);
+        if (availableStaff && availableStaff.length > 0) {
+          const random = Math.floor(Math.random() * availableStaff.length);
+          randomStaff = availableStaff[random];
+        }
       }
 
       setBooking(selectedDate, selectedTime, randomStaff);
@@ -69,6 +107,8 @@ export default function Schedule(): JSX.Element {
       console.error("Selected date or time is missing");
     }
   }
+
+  if (isLoadingBookings || isLoadingWorkdays) return <Spinner />;
 
   return (
     <div className="px-4 flex flex-col justify-center">
@@ -90,15 +130,17 @@ export default function Schedule(): JSX.Element {
         <CalendarTime
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
-          schedule={activeSchedule}
+          schedule={activeSchedule ?? []}
         />
       </div>
       <div className="">
         <BookingTime
+          person={person}
           selectedDate={selectedDate}
-          schedule={activeSchedule}
           selectedTime={selectedTime}
           setSelectedTime={setSelectedTime}
+          currentWorkingday={currentWorkingday}
+          availableStaff={availableStaff}
         />
       </div>
       <div className="pt-4">

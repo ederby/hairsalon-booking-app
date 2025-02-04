@@ -2,6 +2,7 @@ import useBookingInfo from "@/hooks/useBookingInfo";
 import useFormatDate from "@/hooks/useFormatDate";
 import useFormatTimeDuration from "@/hooks/useFormatTimeDuration";
 import { Button } from "./button";
+import { useTotalDuration } from "@/hooks/useTotalDuration";
 
 type BookingDetailsProps = {
   makeReservation: () => void;
@@ -20,13 +21,9 @@ export default function BookingDetails({
     step,
     guestInfo,
   } = useBookingInfo();
+
   const formattedDate = useFormatDate(selectedDate);
-
-  const extraServiceDuration = extraService.length
-    ? extraService.reduce((tot, service) => tot + service.duration, 0)
-    : 0;
-
-  const totalDuration = (service?.duration ?? 0) + extraServiceDuration;
+  const totalDuration = useTotalDuration();
   const formattedTime = useFormatTimeDuration(selectedTime, totalDuration);
 
   const extraServiceTotalPrice = extraService.length
