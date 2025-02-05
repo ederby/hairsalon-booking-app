@@ -99,7 +99,7 @@ export default function BookingTime({
   return (
     <div>
       {availableSlots.length > 0 ? (
-        <ul className="flex justify-start flex-wrap gap-4">
+        <ul className="flex justify-start flex-wrap gap-2">
           {availableSlots.map((slot) => (
             <TimeSlot
               key={slot}
