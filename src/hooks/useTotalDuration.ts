@@ -7,7 +7,7 @@ export function useTotalDuration() {
     ? extraService.reduce((tot, service) => tot + service.duration, 0)
     : 0;
 
-  const totalDuration = (service?.duration ?? 0) + extraServiceDuration;
+  const totalDuration: number = (service?.duration ?? 0) + extraServiceDuration;
 
   return totalDuration;
 }

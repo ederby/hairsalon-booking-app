@@ -5,11 +5,12 @@ import { useState } from "react";
 import BookingTime from "./BookingTime";
 import CalendarTime from "./CalendarTime";
 import { Button } from "./button";
-import { format } from "date-fns";
+import { addMinutes, format, isBefore, parse } from "date-fns";
 import { CircleUserRound } from "lucide-react";
 import { useBookings } from "@/hooks/useBookings";
 import Spinner from "./Spinner";
 import { useWorkdays } from "@/hooks/useWorkdays";
+import { useTotalDuration } from "@/hooks/useTotalDuration";
 
 export default function Schedule(): JSX.Element {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
@@ -19,6 +20,7 @@ export default function Schedule(): JSX.Element {
   const { person, setBooking, category } = useBookingInfo();
   const { isLoadingBookings } = useBookings();
   const { workdays, isLoadingWorkdays } = useWorkdays();
+  const totalDuration = useTotalDuration();
 
   const queryClient = useQueryClient();
   const staffList = queryClient.getQueryData<StaffType[]>([
@@ -37,8 +39,6 @@ export default function Schedule(): JSX.Element {
   const availableWorkdays = workdays?.filter((workday) =>
     staffList?.some((staff) => staff.id === workday.staffID)
   );
-
-  console.log(availableWorkdays);
 
   const activeSchedule =
     person?.id === -1
@@ -85,20 +85,64 @@ export default function Schedule(): JSX.Element {
             workday.staffID === person?.id
         );
 
-  console.log(currentWorkingday);
-
   if (!person) {
     return <div>Personen hittades inte.</div>;
   }
 
   function handleClick() {
+    console.log("clicked");
     if (selectedDate && selectedTime) {
       let randomStaff: StaffType | null | undefined = null;
 
       if (person?.id === -1) {
         if (availableStaff && availableStaff.length > 0) {
-          const random = Math.floor(Math.random() * availableStaff.length);
-          randomStaff = availableStaff[random];
+          const availableStaffDuringSelectedTime = availableStaff.filter(
+            (staff) => {
+              const workday = availableWorkdays?.find(
+                (workday) =>
+                  workday.staffID === staff.id &&
+                  workday.date ===
+                    format(new Date(selectedDate ?? ""), "yyyy-MM-dd")
+              );
+
+              if (!workday) return false;
+
+              const selectedStartTime = parse(
+                selectedTime,
+                "HH:mm",
+                new Date()
+              );
+              const selectedEndTime = addMinutes(
+                selectedStartTime,
+                totalDuration
+              );
+
+              const workdayStartTime = parse(
+                workday.startTime,
+                "HH:mm",
+                new Date()
+              );
+              const workdayEndTime = parse(
+                workday.endTime,
+                "HH:mm",
+                new Date()
+              );
+
+              return (
+                isBefore(selectedStartTime, workdayEndTime) &&
+                isBefore(workdayStartTime, selectedEndTime)
+              );
+            }
+          );
+
+          console.log(availableStaffDuringSelectedTime);
+
+          if (availableStaffDuringSelectedTime.length > 0) {
+            const random = Math.floor(
+              Math.random() * availableStaffDuringSelectedTime.length
+            );
+            randomStaff = availableStaffDuringSelectedTime[random];
+          }
         }
       }
 
