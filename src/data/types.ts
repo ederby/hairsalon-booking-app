@@ -41,11 +41,7 @@ export type StaffType = {
   role: string;
   id: number;
   image: string;
-  schedule: Schedule;
-};
-
-export type Schedule = {
-  [date: string]: string[];
+  isActive: boolean;
 };
 
 export type GuestInfo = {

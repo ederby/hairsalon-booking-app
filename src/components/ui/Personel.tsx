@@ -8,8 +8,7 @@ import ListItem from "./ListItem";
 import Spinner from "./Spinner";
 
 export default function Personel(): JSX.Element {
-  const { category } = useBookingInfo();
-  const { setStaff } = useBookingInfo();
+  const { category, setStaff } = useBookingInfo();
   const {
     data: staff,
     isPending,

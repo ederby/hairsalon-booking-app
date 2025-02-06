@@ -17,14 +17,6 @@ type GetService = {
   isActive: boolean;
 };
 
-type ApiStaffType = {
-  id: number;
-  name: string;
-  role: string;
-  image: string;
-  schedule: Schedule;
-};
-
 type ApiBookingType = {
   category: CategoryType | null;
   service: {
@@ -105,34 +97,33 @@ export async function getExtraServices(categoryID: number) {
   return filteredData;
 }
 
-type Schedule = {
-  [date: string]: string[];
-};
-
 export async function getStaffForCategory(
   categoryID: number
 ): Promise<StaffType[]> {
   const { data, error } = await supabase
     .from("staff_categories")
-    .select(` staff ( id, name, role, image, schedule ) `)
+    .select(` staff ( id, name, role, image, isActive ) `)
     .eq("category_id", categoryID);
+
   if (error) {
     console.error("Error fetching staff for category:", error);
     throw new Error(error.message); // Handle and throw Supabase error
-  } // Check if data is valid
+  }
+
+  // Check if data is valid
   if (!data || !Array.isArray(data)) {
     console.error("Invalid data structure returned from Supabase:", data);
     throw new Error("Invalid data structure received from Supabase");
   }
-  const staffData = data.flatMap(
-    (item: { staff: ApiStaffType[] }) => item.staff
-  );
-  return staffData.map((item: ApiStaffType) => ({
+
+  const staffData = data.flatMap((item: { staff: StaffType[] }) => item.staff);
+
+  return staffData.map((item: StaffType) => ({
     id: item.id,
     name: item.name,
     role: item.role,
     image: item.image,
-    schedule: item.schedule,
+    isActive: item.isActive,
   }));
 }
 
