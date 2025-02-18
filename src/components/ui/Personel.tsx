@@ -18,6 +18,9 @@ export default function Personel(): JSX.Element {
     queryFn: () => getStaffForCategory(category!.id),
     enabled: !!category?.id,
   });
+  const activeStaff = staff?.filter((person) => person.isActive);
+
+  console.log(activeStaff);
 
   if (error) {
     console.error(error);
@@ -34,7 +37,7 @@ export default function Personel(): JSX.Element {
   return (
     <div className="flex gap-5 flex-wrap w-full">
       <ListBody>
-        {staff.map((person: StaffType) => {
+        {activeStaff?.map((person: StaffType) => {
           return (
             <ListItem
               handleClick={() => setStaff(person)}
