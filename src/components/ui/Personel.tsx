@@ -20,8 +20,6 @@ export default function Personel(): JSX.Element {
   });
   const activeStaff = staff?.filter((person) => person.isActive);
 
-  console.log(activeStaff);
-
   if (error) {
     console.error(error);
     return (

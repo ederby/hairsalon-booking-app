@@ -169,3 +169,16 @@ export async function getWorkdays() {
 
   return data;
 }
+
+export async function getTimeslotInterval(): Promise<number> {
+  const { data, error } = await supabase.from("booking_settings").select("*");
+
+  if (error) {
+    console.error("Bokningsinställningar kunde inte hämtas.");
+    throw new Error("Bokningsinställningar kunde inte hämtas.");
+  }
+
+  const { timeslotInterval } = data[0];
+
+  return timeslotInterval;
+}

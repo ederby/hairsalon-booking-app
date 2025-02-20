@@ -90,7 +90,6 @@ export default function Schedule(): JSX.Element {
   }
 
   function handleClick() {
-    console.log("clicked");
     if (selectedDate && selectedTime) {
       let randomStaff: StaffType | null | undefined = null;
 
@@ -134,8 +133,6 @@ export default function Schedule(): JSX.Element {
               );
             }
           );
-
-          console.log(availableStaffDuringSelectedTime);
 
           if (availableStaffDuringSelectedTime.length > 0) {
             const random = Math.floor(

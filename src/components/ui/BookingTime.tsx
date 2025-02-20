@@ -3,6 +3,8 @@ import { useBookings } from "@/hooks/useBookings";
 import { useTotalDuration } from "@/hooks/useTotalDuration";
 import { addMinutes, format, isBefore, parse, startOfDay } from "date-fns";
 import TimeSlot from "./TimeSlot";
+import { useTimeslotInterval } from "@/hooks/useTimeslotInterval";
+import Spinner from "./Spinner";
 
 type BookingTimeProps = {
   selectedDate: Date | undefined;
@@ -23,6 +25,7 @@ export default function BookingTime({
 }: BookingTimeProps): JSX.Element {
   const { bookings } = useBookings();
   const totalDuration = useTotalDuration();
+  const { timeslotInterval, isLoadingTimeslotInterval } = useTimeslotInterval();
 
   const filteredBookings = bookings?.filter((booking) => {
     const isNotCanceled = !booking.canceled;
@@ -89,12 +92,14 @@ export default function BookingTime({
   const allSlots = generateTimeSlots(
     currentWorkingday.startTime,
     currentWorkingday.endTime,
-    15,
+    timeslotInterval || 15,
     totalDuration
   );
 
   // Filter out the slots that collide with filteredBookings
   const availableSlots = allSlots.filter((slot) => !hasCollision(slot));
+
+  if (isLoadingTimeslotInterval) return <Spinner />;
 
   return (
     <div>
