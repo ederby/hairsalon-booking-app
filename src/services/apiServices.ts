@@ -1,4 +1,5 @@
 import {
+  BookingSettingsType,
   CategoryType,
   ExtraServiceType,
   GuestInfo,
@@ -170,7 +171,7 @@ export async function getWorkdays() {
   return data;
 }
 
-export async function getTimeslotInterval(): Promise<number> {
+export async function getBookingSettings(): Promise<BookingSettingsType> {
   const { data, error } = await supabase.from("booking_settings").select("*");
 
   if (error) {
@@ -178,7 +179,5 @@ export async function getTimeslotInterval(): Promise<number> {
     throw new Error("Bokningsinställningar kunde inte hämtas.");
   }
 
-  const { timeslotInterval } = data[0];
-
-  return timeslotInterval;
+  return data[0];
 }

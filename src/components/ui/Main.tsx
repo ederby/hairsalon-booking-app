@@ -10,9 +10,14 @@ import Schedule from "./Schedule";
 import Services from "./Services";
 import BookingSuccess from "./BookingSuccess";
 import { Separator } from "./separator";
+import { useBookingSettings } from "@/hooks/useBookingSettings";
+import Spinner from "./Spinner";
 
 export default function Main() {
   const { step } = useBookingInfo();
+  const { bookingSettings, isLoadingBookingSettings } = useBookingSettings();
+
+  if (isLoadingBookingSettings) return <Spinner />;
 
   return (
     <Card className="w-full py-5 min-h-[calc(100vh-40px)] flex flex-col">
@@ -30,10 +35,7 @@ export default function Main() {
         <Separator className="mt-4" />
         {step !== 6 && (
           <p className="text-sm text-muted-foreground px-4 pt-4">
-            Avbokningen måste ske senast 24h före reserverad tid. Uteblivna
-            kundbesök som inte avbokats inom 24h debiteras med 50% av den totala
-            kostnaden på bokad behandling. Röda dagar, helger samt stängda
-            tisdagar räknas ej i de 24h.
+            {bookingSettings?.cancellationPolicy}
           </p>
         )}
       </div>
