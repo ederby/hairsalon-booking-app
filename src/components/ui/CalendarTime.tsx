@@ -27,7 +27,7 @@ export default function CalendarTime({
         <Button
           variant={"outline"}
           className={cn(
-            "text-left font-normal w-full text-teal-700 border-teal-500 hover:bg-teal-100 hover:border-opacity-0",
+            "text-left font-normal w-full text-[var(--primary-700)] border-[var(--primary-500)] hover:bg-[var(--primary-100)] hover:border-opacity-0",
             !formatedDate && "text-muted-foreground justify-center"
           )}
         >

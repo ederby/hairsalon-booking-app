@@ -88,7 +88,7 @@ export default function ReservationForm() {
             <FormItem>
               <FormControl>
                 <Textarea
-                  className="focus-visible:ring-teal-600"
+                  className="focus-visible:ring-[var(--primary-600)]"
                   placeholder="Tilläggsinformation..."
                   {...field}
                 />

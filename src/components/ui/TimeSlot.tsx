@@ -17,7 +17,7 @@ export default function TimeSlot({
         variant="outline"
         className={`px-4 py-4 rounded w-full min-w-[100px] ${
           selectedTime === slot
-            ? "bg-teal-600 text-teal-50 border-teal-600 hover:bg-teal-600 hover:text-teal-50"
+            ? "bg-[var(--primary-600)] text-[var(--primary-50)] border-[var(--primary-600)] hover:bg-[var(--primary-600)] hover:text-[var(--primary-50)]"
             : ""
         }`}
         onClick={() => setSelectedTime(slot)}

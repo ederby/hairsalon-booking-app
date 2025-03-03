@@ -41,9 +41,9 @@ function Calendar({
         ),
         day_range_end: "day-range-end",
         day_selected:
-          "bg-teal-700 text-teal-50 hover:bg-teal-700 hover:text-teal-50 focus:bg-teal-700 focus:text-teal-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50 dark:hover:text-zinc-900 dark:focus:bg-zinc-50 dark:focus:text-zinc-900",
+          "bg-[var(--primary-700)] text-[var(--primary-50)] hover:bg-[var(--primary-700)] hover:text-[var(--primary-50)] focus:bg-[var(--primary-700)] focus:text-[var(--primary-50)] dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50 dark:hover:text-zinc-900 dark:focus:bg-zinc-50 dark:focus:text-zinc-900",
         day_today:
-          "bg-teal-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50 aria-selected:text-zinc-50",
+          "bg-[var(--primary-100)] text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50 aria-selected:text-zinc-50",
         day_outside: "invisible",
         day_disabled: "text-zinc-400",
         day_range_middle:

@@ -30,16 +30,18 @@ export default function ExtraServiceItem({
   return (
     <TableRow
       onClick={handleChecked}
-      className={`hover:bg-teal-50 cursor-pointer ${
-        isChecked ? "bg-teal-100" : null
+      className={`hover:bg-[var(--primary-50)] cursor-pointer ${
+        isChecked ? "bg-[var(--primary-100)]" : null
       }`}
     >
       <TableCell className="font-medium flex items-center gap-1">
         <Checkbox
-          className="rounded-sm border-teal-800 data-[state=checked]:bg-teal-600 data-[state=checked]:border-opacity-0"
+          className="rounded-sm border-[var(--primary-800)] data-[state=checked]:bg-[var(--primary-600)] data-[state=checked]:border-opacity-0"
           checked={isChecked}
         />{" "}
-        <span className={`${isChecked ? "text-teal-800" : ""}`}>{title}</span>
+        <span className={`${isChecked ? "text-[var(--primary-800)]" : ""}`}>
+          {title}
+        </span>
       </TableCell>
     </TableRow>
   );

@@ -20,7 +20,7 @@ export default function ListItem({
   return (
     <li
       onClick={handleClick}
-      className="w-full flex gap-4 items-center cursor-pointer hover:bg-teal-50 px-4 py-3"
+      className="w-full flex gap-4 items-center cursor-pointer hover:bg-[var(--primary-50)] px-4 py-3"
     >
       <div className="rounded-xl overflow-hidden min-w-[80px]">
         {id === -1 ? (

@@ -35,7 +35,7 @@ export default function Category(): JSX.Element {
         Det finns inga tjänster under denna kategorien just nu,{" "}
         <span
           onClick={() => setStep(0)}
-          className="underline text-teal-600 cursor-pointer hover:text-teal-400"
+          className="underline text-[var(--primary-600)] cursor-pointer hover:text-[var(--primary-400)]"
         >
           gå tillbaka.
         </span>

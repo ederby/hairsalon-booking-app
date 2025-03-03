@@ -12,12 +12,22 @@ import BookingSuccess from "./BookingSuccess";
 import { Separator } from "./separator";
 import { useBookingSettings } from "@/hooks/useBookingSettings";
 import Spinner from "./Spinner";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { useEffect } from "react";
 
 export default function Main() {
   const { step } = useBookingInfo();
   const { bookingSettings, isLoadingBookingSettings } = useBookingSettings();
 
-  if (isLoadingBookingSettings) return <Spinner />;
+  const { colorScheme, isLoadingColorScheme } = useColorScheme();
+
+  console.log(colorScheme);
+
+  useEffect(() => {
+    document.documentElement.className = `theme-${colorScheme}`;
+  }, [colorScheme]);
+
+  if (isLoadingBookingSettings || isLoadingColorScheme) return <Spinner />;
 
   return (
     <Card className="w-full py-5 min-h-[calc(100vh-40px)] flex flex-col">

@@ -35,22 +35,22 @@ export default function BookingDetails({
       <div>
         <div
           className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-            category && "bg-teal-50"
+            category && "bg-[var(--primary-50)]"
           }`}
         >
           <span className="text-zinc-400">Kategori</span>
-          <span className={`${category ? "text-teal-600" : ""}`}>
+          <span className={`${category ? "text-[var(--primary-600)]" : ""}`}>
             {category ? category.title : "Ej vald"}
           </span>
         </div>
 
         <div
           className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-            service && "bg-teal-50"
+            service && "bg-[var(--primary-50)]"
           }`}
         >
           <span className="text-zinc-400">Tjänst</span>
-          <span className={`${service ? "text-teal-600" : ""}`}>
+          <span className={`${service ? "text-[var(--primary-600)]" : ""}`}>
             {service ? service.title : "Ej vald"}
           </span>
         </div>
@@ -58,13 +58,15 @@ export default function BookingDetails({
         {extraService && (
           <div
             className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-              extraService.length || step > 2 ? "bg-teal-50" : ""
+              extraService.length || step > 2 ? "bg-[var(--primary-50)]" : ""
             }`}
           >
             <span className="text-zinc-400">Tilläggstjänster</span>
             <span
               className={`${
-                extraService.length || step > 2 ? "text-teal-600" : ""
+                extraService.length || step > 2
+                  ? "text-[var(--primary-600)]"
+                  : ""
               }`}
             >
               {extraService.length
@@ -82,23 +84,25 @@ export default function BookingDetails({
 
         <div
           className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-            person && "bg-teal-50"
+            person && "bg-[var(--primary-50)]"
           }`}
         >
           <span className="text-zinc-400">Personal</span>
-          <span className={`${person ? "text-teal-600" : ""}`}>
+          <span className={`${person ? "text-[var(--primary-600)]" : ""}`}>
             {person ? person.name : "Ej vald"}
           </span>
         </div>
 
         <div
           className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-            formattedDate && step > 4 && "bg-teal-50"
+            formattedDate && step > 4 && "bg-[var(--primary-50)]"
           }`}
         >
           <span className="text-zinc-400">Datum</span>
           <span
-            className={`${formattedDate && step > 4 ? "text-teal-600" : ""}`}
+            className={`${
+              formattedDate && step > 4 ? "text-[var(--primary-600)]" : ""
+            }`}
           >
             {formattedDate && step > 4 ? formattedDate : "Ej vald"}
           </span>
@@ -106,22 +110,24 @@ export default function BookingDetails({
 
         <div
           className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-            selectedTime && "bg-teal-50"
+            selectedTime && "bg-[var(--primary-50)]"
           }`}
         >
           <span className="text-zinc-400">Tid</span>
-          <span className={`${selectedTime ? "text-teal-600" : ""}`}>
+          <span
+            className={`${selectedTime ? "text-[var(--primary-600)]" : ""}`}
+          >
             {selectedTime ? `Kl.${formattedTime}` : "Ej vald"}
           </span>
         </div>
 
         <div
           className={`flex w-full justify-between border-t border-zinc-200 py-3 px-4 ${
-            guestInfo ? "bg-teal-50" : ""
+            guestInfo ? "bg-[var(--primary-50)]" : ""
           }`}
         >
           <span className="text-zinc-400">Dina uppgifter</span>
-          <span className={`${guestInfo ? "text-teal-600" : ""}`}>
+          <span className={`${guestInfo ? "text-[var(--primary-600)]" : ""}`}>
             {guestInfo ? (
               <>
                 <span className="block text-right">{guestInfo.name}</span>

@@ -20,7 +20,7 @@ export default function ServiceDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="cursor-pointer text-teal-600">
+        <span className="cursor-pointer text-[var(--primary-600)]">
           <Info strokeWidth={1.5} />
         </span>
       </DialogTrigger>

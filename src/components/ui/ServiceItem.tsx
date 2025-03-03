@@ -13,7 +13,7 @@ export default function ServiceItem({ service }: Service): JSX.Element {
   const { setService } = useBookingInfo();
 
   return (
-    <TableRow className="hover:bg-teal-50 cursor-pointer">
+    <TableRow className="hover:bg-[var(--primary-50)] cursor-pointer">
       <TableCell onClick={() => setService(service)} className="font-medium">
         {title}
       </TableCell>
@@ -22,7 +22,7 @@ export default function ServiceItem({ service }: Service): JSX.Element {
           title={title}
           description={description}
           trigger={
-            <span className="cursor-pointer text-teal-600">
+            <span className="cursor-pointer text-[var(--primary-600)]">
               <Info strokeWidth={1.5} />
             </span>
           }

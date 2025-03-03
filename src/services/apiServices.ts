@@ -181,3 +181,16 @@ export async function getBookingSettings(): Promise<BookingSettingsType> {
 
   return data[0];
 }
+
+export async function getColorScheme(): Promise<string> {
+  const { data, error } = await supabase.from("general_settings").select("*");
+
+  if (error) {
+    console.error("Färgschema kunde inte hämtas.");
+    throw new Error("Färgschema kunde inte hämtas.");
+  }
+
+  const colorScheme = data[0].colorScheme;
+
+  return colorScheme;
+}

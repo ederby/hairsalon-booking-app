@@ -1,7 +1,8 @@
-import Main from "./components/ui/Main";
-import BookingInfoProvider from "./hooks/BookingInfoContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Main from "./components/ui/Main";
+import BookingInfoProvider from "./hooks/BookingInfoContext";
+import "./colorScheme.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
